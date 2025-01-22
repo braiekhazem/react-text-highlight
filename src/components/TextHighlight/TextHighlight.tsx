@@ -1,22 +1,71 @@
+import { concatPrefixCls } from "@src/utils/concatPrefixCls";
 import mergeRefs from "@src/utils/mergeRefs";
-import React, { forwardRef, useImperativeHandle, useRef } from "react";
+import { findAllChunks } from "@src/utils/textHightlightCore";
+import { renderWrapperTag } from "@src/utils/textHightlightUtils";
+import React, { createElement, forwardRef, ReactNode, useRef } from "react";
 
-// Import the prop types
-interface TextHighlightProps {
+const REACT_TEXT_HIGHLIGHT_PREFIX = "react-text-highlight";
+
+export type DynamicWrapperTag = (
+  word: string,
+  index: number,
+  props: {
+    className: string;
+    style: React.CSSProperties;
+    onClick?: () => void;
+  }
+) => ReactNode;
+
+interface TextHighlightProps extends React.HTMLAttributes<HTMLDivElement> {
   text: string;
+
   highlightWords: string[];
+
   caseSensitive?: boolean;
+
   highlightClassName?: string;
+
   highlightStyle?: React.CSSProperties;
-  highlightTag?: string;
+
+  highlightTag?: keyof JSX.IntrinsicElements | DynamicWrapperTag;
+
+  unhighlightClassName?: string;
+
+  unhighlightStyle?: React.CSSProperties;
+
+  unhighlightTag?: keyof JSX.IntrinsicElements | DynamicWrapperTag;
+
+  className?: string;
+
+  style?: React.CSSProperties;
+
+  ellipsis?: boolean;
+
+  //-----------------
+
+  tooltip?: boolean;
+
+  tooltipClassName?: string;
+
+  tooltipStyle?: React.CSSProperties;
+
+  tooltipContent?: (word: string) => React.ReactNode;
+
+  tooltipPosition?: "top" | "bottom" | "left" | "right";
+
+  //-----------------
+
   onHighlightClick?: (word: string) => void;
+
   wrapperTag?: keyof JSX.IntrinsicElements;
+
   autoEscape?: boolean;
+
   sanitize?: boolean;
+
   ignoreWords?: string[];
 }
 
-// ReactTextHighlight Component
 export const TextHighlight = forwardRef<HTMLDivElement, TextHighlightProps>(
   (
     {
@@ -28,59 +77,67 @@ export const TextHighlight = forwardRef<HTMLDivElement, TextHighlightProps>(
       onHighlightClick,
       wrapperTag: WrapperTag = "span",
       highlightTag: HighlightTag = "mark",
+      unhighlightClassName = "",
+      unhighlightStyle = { backgroundColor: "", fontWeight: "" },
+      unhighlightTag = "span",
+      className = "",
+      style,
+      ellipsis = false,
+      sanitize = true,
       autoEscape = true,
-      sanitize = false,
       ignoreWords = [],
+      ...rest
     },
     ref
   ) => {
     const internalRef = useRef<any>(null);
 
-    // Expose methods to parent via the ref
-    // useImperativeHandle(ref, () => ({
-    //   scrollToHighlight: () => {
-    //     if (internalRef.current) {
-    //       internalRef.current.scrollIntoView({ behavior: "smooth" });
-    //     }
-    //   },
-    // }));
-
-    const escapeRegex = (word: string) =>
-      autoEscape ? word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") : word;
-
-    const generateRegex = () => {
-      const words = highlightWords
-        .filter((word) => !ignoreWords.includes(word))
-        .map(escapeRegex)
-        .join("|");
-      return new RegExp(`(${words})`, caseSensitive ? "g" : "gi");
-    };
-
     const getHighlightedText = () => {
       if (!highlightWords?.length) return text;
+      const chunks = findAllChunks({
+        autoEscape,
+        caseSensitive,
+        highlightWords,
+        ignoreWords,
+        text,
+      });
 
-      const regex = generateRegex();
-      const parts = text.split(regex);
-
-      return parts.map((part, index) =>
-        regex.test(part)
-          ? React.createElement(
+      return chunks.map((chunk, index) =>
+        chunk?.highlight
+          ? renderWrapperTag(
               HighlightTag,
               {
                 key: index,
                 className: highlightClassName,
                 style: highlightStyle,
-                onClick: () => onHighlightClick?.(part),
+                onClick: () => onHighlightClick?.(chunk.text),
               },
-              part
+              chunk.text
             )
-          : React.createElement(WrapperTag, { key: index }, part)
+          : renderWrapperTag(
+              unhighlightTag,
+              {
+                key: index,
+                className: unhighlightClassName,
+                style: unhighlightStyle,
+              },
+              chunk.text
+            )
       );
     };
 
-    return React.createElement(
+    return createElement(
       WrapperTag,
-      { ref: mergeRefs(internalRef, ref) },
+      {
+        ref: mergeRefs(internalRef, ref),
+        ...rest,
+        className: `${className} ${
+          ellipsis
+            ? concatPrefixCls(REACT_TEXT_HIGHLIGHT_PREFIX, "ellipsis")
+            : ""
+        }`,
+        style,
+      },
       getHighlightedText()
     );
   }
