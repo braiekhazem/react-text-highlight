@@ -1,3 +1,5 @@
+import { IChunk } from "@src/types/textHighlight";
+
 interface IFindAllChunks {
   autoEscape?: boolean;
   caseSensitive?: boolean;
@@ -14,8 +16,7 @@ export const findAllChunks = ({
   ignoreWords = [],
   text,
   exactWord = false,
-}: IFindAllChunks): { text: string; highlight: boolean }[] => {
-  // Return early if highlightWords only contains empty string
+}: IFindAllChunks): IChunk[] => {
   if (highlightWords.length === 1 && highlightWords[0] === "")
     return [
       {
@@ -29,7 +30,7 @@ export const findAllChunks = ({
 
   const generateRegex = () => {
     const words = highlightWords
-      .filter((word) => word && !ignoreWords.includes(word)) // Filter out empty strings
+      .filter((word) => word && !ignoreWords.includes(word))
       .map(escapeRegex)
       .join("|");
 

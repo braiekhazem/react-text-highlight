@@ -1,80 +1,22 @@
+import { useTextHighlight } from "@src/hooks/useTextHighlight";
+import {
+  HighlightElement,
+  TextHighlightProps,
+  TextHighlightRef,
+} from "@src/types/textHighlight";
 import { concatPrefixCls } from "@src/utils/concatPrefixCls";
 import mergeRefs from "@src/utils/mergeRefs";
-import { findAllChunks } from "@src/utils/textHightlightCore";
-import { renderWrapperTag } from "@src/utils/textHightlightUtils";
+import { getHighlightedText } from "@src/utils/textHightlightUtils";
 import React, {
   createElement,
   forwardRef,
-  ReactNode,
   useImperativeHandle,
   useRef,
 } from "react";
 
 const REACT_TEXT_HIGHLIGHT_PREFIX = "react-text-highlight";
 
-export type DynamicWrapperTag = (
-  word: string,
-  index: number,
-  props: {
-    className: string;
-    style: React.CSSProperties;
-    onClick?: () => void;
-  }
-) => ReactNode;
-
-interface TextHighlightProps extends React.HTMLAttributes<HTMLDivElement> {
-  text: string;
-
-  highlightWords: string[];
-
-  caseSensitive?: boolean;
-
-  highlightClassName?: string;
-
-  highlightStyle?: React.CSSProperties;
-
-  highlightTag?: keyof JSX.IntrinsicElements | DynamicWrapperTag;
-
-  unhighlightClassName?: string;
-
-  unhighlightStyle?: React.CSSProperties;
-
-  unhighlightTag?: keyof JSX.IntrinsicElements | DynamicWrapperTag;
-
-  className?: string;
-
-  style?: React.CSSProperties;
-
-  ellipsis?: boolean;
-
-  //-----------------
-
-  tooltip?: boolean;
-
-  tooltipClassName?: string;
-
-  tooltipStyle?: React.CSSProperties;
-
-  tooltipContent?: (word: string) => React.ReactNode;
-
-  tooltipPosition?: "top" | "bottom" | "left" | "right";
-
-  //-----------------
-
-  onHighlightClick?: (e: React.MouseEvent, word: string, index: number) => void;
-
-  wrapperTag?: keyof JSX.IntrinsicElements;
-
-  autoEscape?: boolean;
-
-  exactWord?: boolean;
-
-  sanitize?: boolean;
-
-  ignoreWords?: string[];
-}
-
-export const TextHighlight = forwardRef<HTMLDivElement, TextHighlightProps>(
+export const TextHighlight = forwardRef<TextHighlightRef, TextHighlightProps>(
   (
     {
       text = "",
@@ -83,12 +25,23 @@ export const TextHighlight = forwardRef<HTMLDivElement, TextHighlightProps>(
       highlightClassName = "",
       highlightStyle = { backgroundColor: "yellow", fontWeight: "bold" },
       onHighlightClick,
+      onHighlightCountChange,
+      onCurrentHighlightChange,
+      tooltip = false,
+      tooltipClassName = "",
+      tooltipStyle = { backgroundColor: "#000000", padding: "5px" },
+      tooltipContent,
       wrapperTag: WrapperTag = "div",
       highlightTag: HighlightTag = "mark",
       unhighlightClassName = "",
       unhighlightStyle = { backgroundColor: "", fontWeight: "" },
       unhighlightTag = "span",
       className = "",
+      enableAutoScroll = true,
+      activeHighlightClassName = concatPrefixCls(
+        REACT_TEXT_HIGHLIGHT_PREFIX,
+        "active"
+      ),
       style,
       ellipsis = false,
       sanitize = true,
@@ -99,74 +52,59 @@ export const TextHighlight = forwardRef<HTMLDivElement, TextHighlightProps>(
     },
     ref
   ) => {
-    const internalRef = useRef<HTMLDivElement>(null);
+    const internalRef = useRef<TextHighlightRef>(null);
 
-    const chunks = findAllChunks({
-      autoEscape,
-      caseSensitive,
+    const {
+      chunks,
+      highlightedElements,
+      highlightedElementsCount,
+      currentHighlightIndex,
+      setCurrentHighlightIndex,
+    } = useTextHighlight(text, {
       highlightWords,
-      ignoreWords,
-      text,
+      caseSensitive,
       exactWord,
+      autoEscape,
+      ignoreWords,
+      onHighlightCountChange,
+      onCurrentHighlightChange,
     });
 
     useImperativeHandle(ref, () => ({
       ...((ref as React.MutableRefObject<HTMLDivElement>)?.current ?? {}),
       scrollToHighlight: (index: number = 0) => {
         if (internalRef.current) {
-          // Remove previous highlight style from all elements
           Array.from(internalRef.current.children).forEach((element) => {
-            (element as HTMLElement).style.outline = "";
+            (element as HTMLElement).classList.remove(activeHighlightClassName);
           });
 
           const highlightElement = internalRef.current.children[index];
           if (highlightElement) {
-            (highlightElement as HTMLElement).style.outline = "2px solid blue";
-            highlightElement.scrollIntoView({
-              behavior: "smooth",
-              block: "center",
-              inline: "center",
-            });
+            (highlightElement as HTMLElement).classList.add(
+              activeHighlightClassName
+            );
+
+            if (enableAutoScroll)
+              highlightElement.scrollIntoView({
+                behavior: "smooth",
+                block: "center",
+                inline: "center",
+              });
+
+            const indexInChunks = highlightedElements?.findIndex(
+              (chunk) => chunk.index === index
+            );
+
+            setCurrentHighlightIndex(indexInChunks);
           }
         }
       },
-      highlightedElements: chunks
-        .map((chunk, index) =>
-          chunk.highlight ? { text: chunk.text, index } : null
-        )
-        .filter(Boolean),
-      highlightedElementsCount: chunks.filter((chunk) => chunk.highlight)
-        ?.length,
+      currentHighlightIndex,
+      highlightedElements: highlightedElements as HighlightElement[],
+      highlightedElementsCount: highlightedElementsCount,
       chunks,
       chunksCount: chunks?.length || 0,
     }));
-
-    console.log(internalRef.current, ref);
-    const getHighlightedText = () => {
-      return chunks.map((chunk, index) =>
-        chunk?.highlight
-          ? renderWrapperTag(
-              HighlightTag,
-              {
-                key: index,
-                className: highlightClassName,
-                style: highlightStyle,
-                onClick: (e: React.MouseEvent) =>
-                  onHighlightClick?.(e, chunk.text, index),
-              },
-              chunk.text
-            )
-          : renderWrapperTag(
-              unhighlightTag,
-              {
-                key: index,
-                className: unhighlightClassName,
-                style: unhighlightStyle,
-              },
-              chunk.text
-            )
-      );
-    };
 
     const wrapperClassName = `${className} ${
       ellipsis ? concatPrefixCls(REACT_TEXT_HIGHLIGHT_PREFIX, "ellipsis") : ""
@@ -180,7 +118,16 @@ export const TextHighlight = forwardRef<HTMLDivElement, TextHighlightProps>(
         className: wrapperClassName,
         style,
       },
-      getHighlightedText()
+      getHighlightedText(
+        chunks,
+        HighlightTag,
+        highlightClassName,
+        highlightStyle,
+        onHighlightClick,
+        unhighlightTag,
+        unhighlightClassName,
+        unhighlightStyle
+      )
     );
   }
 );

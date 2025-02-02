@@ -1,19 +1,42 @@
 import React, { useEffect, useRef, useState } from "react";
-import { TextHighlight } from "../../src/index";
+import {
+  TextHighlight,
+  TextHighlightRef,
+  useTextHighlight,
+} from "../../src/index";
 
 const App = () => {
-  const highlightRef = useRef<HTMLDivElement>(null);
+  const highlightRef = useRef<TextHighlightRef>(null);
   const [seach, setSearch] = useState("");
+  const [totalCount, setTotalCount] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(0);
   const [value, setValue] = React.useState(`
       Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
     `);
 
+  const { chunks, highlightedElements } = useTextHighlight(value, {
+    highlightWords: seach.split(" "),
+    onHighlightCountChange: setTotalCount,
+    onCurrentHighlightChange: setActiveIndex,
+  });
+
+  console.log({
+    chunks,
+    highlightedElements,
+  });
+
   useEffect(() => {
-    console.log(highlightRef.current);
-  }, [highlightRef.current]);
+    const count = highlightRef.current?.highlightedElementsCount || 0;
 
-  console.log(seach.split(" "));
+    console.log({ count });
+    setTotalCount(count);
+  }, [highlightRef.current?.highlightedElementsCount]);
 
+  // useEffect(() => {
+  //   console.log(highlightRef.current);
+  // }, [highlightRef.current]);
+
+  console.log(highlightRef.current?.highlightedElementsCount);
   return (
     <div>
       <div>
@@ -32,22 +55,20 @@ const App = () => {
 
         <button
           onClick={() => {
-            const elements = highlightRef.current?.highlightedElements;
-            const count = highlightRef.current?.highlightedElementsCount || 0;
-            if (!elements || count === 0) return;
-
-            const currentIndex = elements.findIndex(
-              (el) => el?.index === highlightRef.current?.currentHighlightIndex
-            );
-
-            const nextIndex = currentIndex === count - 1 ? 0 : currentIndex + 1;
-            highlightRef.current.currentHighlightIndex =
-              elements[nextIndex]?.index;
-            highlightRef.current?.scrollToHighlight(elements[nextIndex]?.index);
+            const newIndex =
+              highlightRef.current?.highlightedElements[
+                highlightRef.current?.currentHighlightIndex + 1
+              ]?.index;
+            console.log({ newIndex });
+            highlightRef.current?.scrollToHighlight(newIndex);
           }}
         >
           Next Word
         </button>
+
+        <b>
+          {activeIndex} /{totalCount}
+        </b>
       </div>
       <TextHighlight
         ref={highlightRef}
@@ -63,20 +84,23 @@ const App = () => {
         exactWord={false}
         highlightTag={"p"}
         autoEscape={true}
-        caseSensitive={true}
+        caseSensitive={false}
+        onHighlightCountChange={setTotalCount}
+        onCurrentHighlightChange={setActiveIndex}
         unhighlightTag={"a"}
         highlightStyle={{
-          color: "yellow",
-          background: "red",
+          background: "yellow",
           display: "inline",
-          borderRadius: "3px",
         }}
+        activeHighlightClassName="active-highlight"
         onHighlightClick={(_, _2, index) =>
           highlightRef.current?.scrollToHighlight(index)
         }
-        style={{
-          whiteSpace: "nowrap",
-        }}
+        style={
+          {
+            // whiteSpace: "nowrap",
+          }
+        }
         ellipsis={false}
         className="text-highlight-ellipsis2"
       />
