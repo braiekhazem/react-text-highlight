@@ -1,18 +1,11 @@
 import { useTextHighlight } from "@src/hooks/useTextHighlight";
-import {
-  HighlightElement,
-  TextHighlightProps,
-  TextHighlightRef,
-} from "@src/types/textHighlight";
+import { useTextHighlightRef } from "@src/hooks/useTextHighlightRef";
+import { TextHighlightProps, TextHighlightRef } from "@src/types/textHighlight";
 import { concatPrefixCls } from "@src/utils/concatPrefixCls";
 import mergeRefs from "@src/utils/mergeRefs";
 import { getHighlightedText } from "@src/utils/textHightlightUtils";
-import React, {
-  createElement,
-  forwardRef,
-  useImperativeHandle,
-  useRef,
-} from "react";
+import { createElement, forwardRef } from "react";
+import classNames from "classnames";
 
 const REACT_TEXT_HIGHLIGHT_PREFIX = "react-text-highlight";
 
@@ -52,12 +45,9 @@ export const TextHighlight = forwardRef<TextHighlightRef, TextHighlightProps>(
     },
     ref
   ) => {
-    const internalRef = useRef<TextHighlightRef>(null);
-
     const {
       chunks,
       highlightedElements,
-      highlightedElementsCount,
       currentHighlightIndex,
       setCurrentHighlightIndex,
     } = useTextHighlight(text, {
@@ -70,45 +60,19 @@ export const TextHighlight = forwardRef<TextHighlightRef, TextHighlightProps>(
       onCurrentHighlightChange,
     });
 
-    useImperativeHandle(ref, () => ({
-      ...((ref as React.MutableRefObject<HTMLDivElement>)?.current ?? {}),
-      scrollToHighlight: (index: number = 0) => {
-        if (internalRef.current) {
-          Array.from(internalRef.current.children).forEach((element) => {
-            (element as HTMLElement).classList.remove(activeHighlightClassName);
-          });
-
-          const highlightElement = internalRef.current.children[index];
-          if (highlightElement) {
-            (highlightElement as HTMLElement).classList.add(
-              activeHighlightClassName
-            );
-
-            if (enableAutoScroll)
-              highlightElement.scrollIntoView({
-                behavior: "smooth",
-                block: "center",
-                inline: "center",
-              });
-
-            const indexInChunks = highlightedElements?.findIndex(
-              (chunk) => chunk.index === index
-            );
-
-            setCurrentHighlightIndex(indexInChunks);
-          }
-        }
-      },
+    const internalRef = useTextHighlightRef(
+      ref,
+      highlightedElements,
+      activeHighlightClassName,
+      enableAutoScroll,
       currentHighlightIndex,
-      highlightedElements: highlightedElements as HighlightElement[],
-      highlightedElementsCount: highlightedElementsCount,
       chunks,
-      chunksCount: chunks?.length || 0,
-    }));
+      setCurrentHighlightIndex
+    );
 
-    const wrapperClassName = `${className} ${
-      ellipsis ? concatPrefixCls(REACT_TEXT_HIGHLIGHT_PREFIX, "ellipsis") : ""
-    }`;
+    const wrapperClassName = classNames(className, {
+      [concatPrefixCls("react-text-highlight", "ellipsis")]: ellipsis,
+    });
 
     return createElement(
       WrapperTag,
