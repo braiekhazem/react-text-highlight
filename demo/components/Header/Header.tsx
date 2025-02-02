@@ -38,14 +38,20 @@ const Header: React.FC<HeaderProps> = (props) => {
     <div className="header">
       <div className="header-left">
         <Logo width={35} height={35} />
-        <a href="https://github.com/braiekhazem/Vidify" target="_blank">
-          <p>Vidify</p>
+        <a
+          href="https://github.com/braiekhazem/react-text-highlight"
+          target="_blank"
+        >
+          <p>react-text-highlight</p>
         </a>
       </div>
 
       <div className="header-right">
         {!isSmall && (
-          <a href="https://github.com/braiekhazem/Vidify" target="_blank">
+          <a
+            href="https://github.com/braiekhazem/react-text-highlight"
+            target="_blank"
+          >
             <div className="github-button">
               <GithubSVG />
               Github
@@ -92,7 +98,10 @@ const Header: React.FC<HeaderProps> = (props) => {
             </Tooltip>
           </div>
         </div>
-        <a href="https://github.com/braiekhazem/Vidify" target="_blank">
+        <a
+          href="https://github.com/braiekhazem/react-text-highlight"
+          target="_blank"
+        >
           <div className="start-button">
             {isSmall ? (
               <GithubSVG />

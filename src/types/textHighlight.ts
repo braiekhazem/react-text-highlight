@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { JSX, ReactNode } from "react";
 
 export type DynamicWrapperTag = (
   word: string,
@@ -13,6 +13,8 @@ export type DynamicWrapperTag = (
 export interface TextHighlightProps
   extends React.HTMLAttributes<HTMLDivElement> {
   text: string;
+
+  ref?: React.Ref<TextHighlightRef>;
 
   highlightWords: string[];
 

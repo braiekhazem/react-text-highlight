@@ -24,7 +24,7 @@ export const useTextHighlightRef = (
   };
 
   const scrollToHighlight = (index: number = 0) => {
-    if (!internalRef.current) return;
+    if (!internalRef.current || !index || index === -1) return;
 
     clearHighlights();
 

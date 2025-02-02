@@ -36,7 +36,7 @@ const App = () => {
   //   console.log(highlightRef.current);
   // }, [highlightRef.current]);
 
-  console.log(highlightRef.current?.highlightedElementsCount);
+  console.log(highlightRef.current);
   return (
     <div>
       <div>

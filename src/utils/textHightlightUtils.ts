@@ -1,15 +1,13 @@
 import { DynamicWrapperTag, IChunk } from "@src/types/textHighlight";
-import React, { ReactNode } from "react";
+import React, { JSX, ReactNode } from "react";
 
 export const renderWrapperTag = (
   tag: string | DynamicWrapperTag,
   props: any,
   content: string
 ) => {
-  const { key, ...rest } = props;
-  return typeof tag === "string"
-    ? React.createElement(tag, props, content)
-    : tag(content, key, rest);
+  if (typeof tag === "string") return React.createElement(tag, props, content);
+  return tag(content, props.index, props);
 };
 
 export const getHighlightedText = (
@@ -28,6 +26,7 @@ export const getHighlightedText = (
           HighlightTag,
           {
             key: index,
+            index,
             className: highlightClassName,
             style: highlightStyle,
             onClick: (e: React.MouseEvent) =>
@@ -39,6 +38,7 @@ export const getHighlightedText = (
           unhighlightTag,
           {
             key: index,
+            index,
             className: unhighlightClassName,
             style: unhighlightStyle,
           },
