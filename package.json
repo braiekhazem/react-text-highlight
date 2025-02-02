@@ -52,6 +52,7 @@
     "classes": "^0.3.0",
     "classnames": "^2.5.1",
     "husky": "^8.0.3",
+    "rc-tooltip": "^6.4.0",
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-tooltip": "^5.26.3",

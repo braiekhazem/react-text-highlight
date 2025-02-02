@@ -3,3 +3,29 @@
   overflow: hidden;
   white-space: nowrap;
 }
+
+.react-text-highlight-tooltip.rc-tooltip {
+  background-color: transparent;
+  border: none;
+  .rc-tooltip-inner {
+    background-color: #000000d9;
+    min-height: 25px;
+    padding: 9px;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+    box-shadow:
+      0 6px 16px 0 rgba(0, 0, 0, 0.08),
+      0 3px 6px -4px rgba(0, 0, 0, 0.12),
+      0 9px 28px 8px rgba(0, 0, 0, 0.05);
+    color: #fff;
+    font-weight: 500;
+    border: none;
+  }
+
+  .rc-tooltip-arrow {
+    border-bottom-color: #000000d9;
+  }
+}

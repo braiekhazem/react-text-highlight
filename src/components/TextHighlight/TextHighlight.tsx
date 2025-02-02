@@ -1,15 +1,15 @@
 import { useTextHighlight } from "@src/hooks/useTextHighlight";
 import { useTextHighlightRef } from "@src/hooks/useTextHighlightRef";
-import { TextHighlightProps } from "@src/types/textHighlight";
 import { concatPrefixCls } from "@src/utils/concatPrefixCls";
 import mergeRefs from "@src/utils/mergeRefs";
 import { getHighlightedText } from "@src/utils/textHightlightUtils";
 import { createElement, JSX } from "react";
 import classNames from "classnames";
+import { TextHighlightProps } from "./@types";
 
-const REACT_TEXT_HIGHLIGHT_PREFIX = "react-text-highlight";
+export const REACT_TEXT_HIGHLIGHT_PREFIX = "react-text-highlight";
 
-export const TextHighlight = ({
+const InternalTextHighlight = ({
   text = "",
   highlightWords,
   caseSensitive = false,
@@ -18,10 +18,7 @@ export const TextHighlight = ({
   onHighlightClick,
   onHighlightCountChange,
   onCurrentHighlightChange,
-  tooltip = false,
-  tooltipClassName = "",
-  tooltipStyle = { backgroundColor: "#000000", padding: "5px" },
-  tooltipContent,
+  tooltip,
   wrapperTag: WrapperTag = "div",
   highlightTag: HighlightTag = "mark",
   unhighlightClassName = "",
@@ -68,7 +65,7 @@ export const TextHighlight = ({
   );
 
   const wrapperClassName = classNames(className, {
-    [concatPrefixCls("react-text-highlight", "ellipsis")]: ellipsis,
+    [concatPrefixCls(REACT_TEXT_HIGHLIGHT_PREFIX, "ellipsis")]: ellipsis,
   });
 
   const elementProps = {
@@ -86,6 +83,7 @@ export const TextHighlight = ({
       HighlightTag,
       highlightClassName,
       highlightStyle,
+      tooltip,
       onHighlightClick,
       unhighlightTag,
       unhighlightClassName,
@@ -93,3 +91,5 @@ export const TextHighlight = ({
     )
   );
 };
+
+export const TextHighlight = InternalTextHighlight;

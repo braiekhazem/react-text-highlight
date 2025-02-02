@@ -25,18 +25,10 @@ const App = () => {
     highlightedElements,
   });
 
-  useEffect(() => {
-    const count = highlightRef.current?.highlightedElementsCount || 0;
-
-    console.log({ count });
-    setTotalCount(count);
-  }, [highlightRef.current?.highlightedElementsCount]);
-
   // useEffect(() => {
   //   console.log(highlightRef.current);
   // }, [highlightRef.current]);
 
-  console.log(highlightRef.current);
   return (
     <div>
       <div>
@@ -81,6 +73,17 @@ const App = () => {
         //     </a>
         //   );
         // }}
+
+        tooltip={{
+          content: (text) => {
+            return (
+              <div>
+                Tooltip: ${text}
+                <a href="#">{text}</a>
+              </div>
+            );
+          },
+        }}
         exactWord={false}
         highlightTag={"p"}
         autoEscape={true}
@@ -95,11 +98,6 @@ const App = () => {
         activeHighlightClassName="active-highlight"
         onHighlightClick={(_, _2, index) =>
           highlightRef.current?.scrollToHighlight(index)
-        }
-        style={
-          {
-            // whiteSpace: "nowrap",
-          }
         }
         ellipsis={false}
         className="text-highlight-ellipsis2"
