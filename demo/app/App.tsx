@@ -51,7 +51,6 @@ const App = () => {
               highlightRef.current?.highlightedElements[
                 highlightRef.current?.currentHighlightIndex + 1
               ]?.index;
-            console.log({ newIndex });
             highlightRef.current?.scrollToHighlight(newIndex);
           }}
         >
@@ -59,7 +58,7 @@ const App = () => {
         </button>
 
         <b>
-          {activeIndex} /{totalCount}
+          {activeIndex + 1} /{totalCount}
         </b>
       </div>
       <TextHighlight
@@ -99,7 +98,7 @@ const App = () => {
         onHighlightClick={(_, _2, index) =>
           highlightRef.current?.scrollToHighlight(index)
         }
-        ellipsis={false}
+        ellipsis={true}
         className="text-highlight-ellipsis2"
       />
     </div>
