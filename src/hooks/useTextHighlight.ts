@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { findAllChunks } from "@src/utils/textHightlightCore";
+import { findAllChunks } from "../utils/textHightlightCore";
 
 interface TextHighlightOptions {
   highlightWords: string[];
