@@ -9,7 +9,7 @@ A powerful, flexible, and easy-to-use React component for highlighting text. Per
 [![npm downloads](https://img.shields.io/npm/dm/@hazembraiek/react-text-highlight.svg)](https://www.npmjs.com/package/@hazembraiek/react-text-highlight)
 [![license](https://img.shields.io/npm/l/@hazembraiek/react-text-highlight.svg)](https://github.com/braiekhazem/react-text-highlight/blob/main/LICENSE)
 
-[Demo](https://react-text-highlight.netlify.app/) | [NPM](https://www.npmjs.com/package/@hazembraiek/react-text-highlight) | [GitHub](https://github.com/braiekhazem/react-text-highlight)
+[Demo](https://react-text-highlight-demo.netlify.app/) | [NPM](https://www.npmjs.com/package/@hazembraiek/react-text-highlight) | [GitHub](https://github.com/braiekhazem/react-text-highlight)
 
 </div>
 
@@ -27,7 +27,7 @@ See React Text Highlight in action:
   
 </div>
 
-**Can't see the video?** [Click here to watch the demo](https://dl.dropboxusercontent.com/scl/fi/4j2926t5c6hvwey6zlxpn/1764693315297_Screen-Recording-2025-12-02-at-5.33.10-PM.mov?rlkey=qswnld2mbk1d018mtuof9glw3&dl=0) or visit the [live demo site](https://react-text-highlight.netlify.app/)
+**Can't see the video?** [Click here to watch the demo](https://dl.dropboxusercontent.com/scl/fi/4j2926t5c6hvwey6zlxpn/1764693315297_Screen-Recording-2025-12-02-at-5.33.10-PM.mov?rlkey=qswnld2mbk1d018mtuof9glw3&dl=0) or visit the [live demo site](https://react-text-highlight-demo.netlify.app/)
 
 ---
 
@@ -397,7 +397,7 @@ MIT © [Hazem Braiek](https://github.com/braiekhazem)
 
 ## Links
 
-- [Live Demo](https://react-text-highlight.netlify.app/)
+- [Live Demo](https://react-text-highlight-demo.netlify.app/)
 - [NPM Package](https://www.npmjs.com/package/@hazembraiek/react-text-highlight)
 - [GitHub Repository](https://github.com/braiekhazem/react-text-highlight)
 - [Issue Tracker](https://github.com/braiekhazem/react-text-highlight/issues)
