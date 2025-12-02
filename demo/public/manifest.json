@@ -1,0 +1,26 @@
+{
+  "name": "React Text Highlight",
+  "short_name": "Text Highlight",
+  "description": "A powerful, flexible, and easy-to-use React component for highlighting text",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4F46E5",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "https://dl.dropboxusercontent.com/scl/fi/uw8egqxrme5kpdhkjdexa/1764693415455_1740222307936-New-svg.svg?rlkey=rkii4v4a8v8jwnvd5qfomdkse&dl=0",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["development", "productivity", "utilities"],
+  "screenshots": [
+    {
+      "src": "https://dl.dropboxusercontent.com/scl/fi/uw8egqxrme5kpdhkjdexa/1764693415455_1740222307936-New-svg.svg?rlkey=rkii4v4a8v8jwnvd5qfomdkse&dl=0",
+      "sizes": "540x720",
+      "type": "image/svg+xml"
+    }
+  ]
+}

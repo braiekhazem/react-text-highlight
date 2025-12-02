@@ -1,0 +1,13 @@
+# robots.txt for React Text Highlight Demo
+User-agent: *
+Allow: /
+Disallow: /node_modules/
+Disallow: /dist/
+Disallow: /*.json
+
+# Sitemap
+Sitemap: https://react-text-highlight-demo.netlify.app/sitemap.xml
+
+# Crawl-delay
+Crawl-delay: 1
+
