@@ -249,11 +249,9 @@ function App() {
         </div>
       </main>
 
-      {/* Footer */}
       <footer className="relative mt-20 border-t border-gray-200/50 bg-white/60 backdrop-blur-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex flex-col items-center gap-6">
-            {/* CTA Section */}
             <div className="text-center">
               <h3 className="text-2xl font-bold text-gray-900 mb-2">
                 Ready to get started?
@@ -276,10 +274,8 @@ function App() {
               </div>
             </div>
 
-            {/* Divider */}
             <div className="w-full max-w-md h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
 
-            {/* Footer Info */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 text-sm">
               <span className="hidden sm:inline text-gray-400">•</span>
               <p className="text-gray-600">
