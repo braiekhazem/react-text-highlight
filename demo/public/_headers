@@ -1,0 +1,37 @@
+# Headers for Netlify deployment
+/*
+  # Security headers
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  X-XSS-Protection: 1; mode=block
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=()
+  
+  # Cache control
+  Cache-Control: public, max-age=31536000, immutable
+
+# HTML files - no cache
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+# JavaScript and CSS - cache for 1 year
+/assets/*.js
+  Cache-Control: public, max-age=31536000, immutable
+  
+/assets/*.css
+  Cache-Control: public, max-age=31536000, immutable
+
+# Images and fonts - cache for 1 year
+/assets/*.svg
+  Cache-Control: public, max-age=31536000, immutable
+  Content-Type: image/svg+xml
+
+/assets/*.png
+  Cache-Control: public, max-age=31536000, immutable
+  
+/assets/*.jpg
+  Cache-Control: public, max-age=31536000, immutable
+  
+/assets/*.webp
+  Cache-Control: public, max-age=31536000, immutable
+

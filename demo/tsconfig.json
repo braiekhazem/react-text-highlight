@@ -51,7 +51,7 @@
     // 
     "esm": true, 
   },
-  "include": ["src","./src/index.ts", "demo/app"],
+  "include": ["src","./src/index.ts", "demo/app", "vite-env.d.ts"],
   "references": [{ "path": "./tsconfig.node.json" }],
   "types": ["vite/client"]
 }

@@ -12,13 +12,13 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "."),
-      "@src": path.resolve(__dirname, "./src"),
+      "@src": path.resolve(__dirname, "src"),
     },
   },
   build: {
     lib: {
       entry: path.resolve(__dirname, "src/index.ts"),
-      name: "vidify",
+      name: "react-text-highlight",
       fileName: (format) => `index.${format}.js`,
     },
     rollupOptions: {

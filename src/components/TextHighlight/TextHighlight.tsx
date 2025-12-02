@@ -1,87 +1,95 @@
+import { useTextHighlight } from "@src/hooks/useTextHighlight";
+import { useTextHighlightRef } from "@src/hooks/useTextHighlightRef";
+import { concatPrefixCls } from "@src/utils/concatPrefixCls";
 import mergeRefs from "@src/utils/mergeRefs";
-import React, { forwardRef, useImperativeHandle, useRef } from "react";
+import { getHighlightedText } from "@src/utils/textHightlightUtils";
+import { createElement, JSX } from "react";
+import classNames from "classnames";
+import { TextHighlightProps } from "./@types";
 
-// Import the prop types
-interface TextHighlightProps {
-  text: string;
-  highlightWords: string[];
-  caseSensitive?: boolean;
-  highlightClassName?: string;
-  highlightStyle?: React.CSSProperties;
-  highlightTag?: string;
-  onHighlightClick?: (word: string) => void;
-  wrapperTag?: keyof JSX.IntrinsicElements;
-  autoEscape?: boolean;
-  sanitize?: boolean;
-  ignoreWords?: string[];
-}
+export const REACT_TEXT_HIGHLIGHT_PREFIX = "react-text-highlight";
 
-// ReactTextHighlight Component
-export const TextHighlight = forwardRef<HTMLDivElement, TextHighlightProps>(
-  (
-    {
-      text = "",
-      highlightWords,
-      caseSensitive = false,
-      highlightClassName = "",
-      highlightStyle = { backgroundColor: "yellow", fontWeight: "bold" },
+const InternalTextHighlight = ({
+  text = "",
+  highlightWords,
+  caseSensitive = false,
+  highlightClassName = "",
+  highlightStyle = { backgroundColor: "yellow", fontWeight: "bold" },
+  onHighlightClick,
+  onHighlightCountChange,
+  onCurrentHighlightChange,
+  tooltip,
+  wrapperTag: WrapperTag = "div",
+  highlightTag: HighlightTag = "mark",
+  unhighlightClassName = "",
+  unhighlightStyle = { backgroundColor: "", fontWeight: "" },
+  unhighlightTag = "span",
+  className = "",
+  enableAutoScroll = true,
+  activeHighlightClassName = concatPrefixCls(
+    REACT_TEXT_HIGHLIGHT_PREFIX,
+    "active"
+  ),
+  style,
+  ellipsis = false,
+  sanitize = true,
+  exactWord = false,
+  autoEscape = true,
+  ignoreWords = [],
+  ref = null,
+  ...rest
+}: TextHighlightProps): JSX.Element => {
+  const {
+    chunks,
+    highlightedElements,
+    currentHighlightIndex,
+    setCurrentHighlightIndex,
+  } = useTextHighlight(text, {
+    highlightWords,
+    caseSensitive,
+    exactWord,
+    autoEscape,
+    ignoreWords,
+    onHighlightCountChange,
+    onCurrentHighlightChange,
+  });
+
+  const internalRef = useTextHighlightRef(
+    ref,
+    highlightedElements,
+    activeHighlightClassName,
+    enableAutoScroll,
+    currentHighlightIndex,
+    chunks,
+    setCurrentHighlightIndex
+  );
+
+  const wrapperClassName = classNames(className, {
+    [concatPrefixCls(REACT_TEXT_HIGHLIGHT_PREFIX, "ellipsis")]: ellipsis,
+  });
+
+  const elementProps = {
+    ref: mergeRefs(internalRef, ref),
+    ...rest,
+    style,
+    ...(typeof WrapperTag === "string" ? { className: wrapperClassName } : {}),
+  };
+
+  return createElement(
+    WrapperTag,
+    elementProps,
+    getHighlightedText(
+      chunks,
+      HighlightTag,
+      highlightClassName,
+      highlightStyle,
+      tooltip,
       onHighlightClick,
-      wrapperTag: WrapperTag = "span",
-      highlightTag: HighlightTag = "mark",
-      autoEscape = true,
-      sanitize = false,
-      ignoreWords = [],
-    },
-    ref
-  ) => {
-    const internalRef = useRef<any>(null);
+      unhighlightTag,
+      unhighlightClassName,
+      unhighlightStyle
+    )
+  );
+};
 
-    // Expose methods to parent via the ref
-    // useImperativeHandle(ref, () => ({
-    //   scrollToHighlight: () => {
-    //     if (internalRef.current) {
-    //       internalRef.current.scrollIntoView({ behavior: "smooth" });
-    //     }
-    //   },
-    // }));
-
-    const escapeRegex = (word: string) =>
-      autoEscape ? word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") : word;
-
-    const generateRegex = () => {
-      const words = highlightWords
-        .filter((word) => !ignoreWords.includes(word))
-        .map(escapeRegex)
-        .join("|");
-      return new RegExp(`(${words})`, caseSensitive ? "g" : "gi");
-    };
-
-    const getHighlightedText = () => {
-      if (!highlightWords?.length) return text;
-
-      const regex = generateRegex();
-      const parts = text.split(regex);
-
-      return parts.map((part, index) =>
-        regex.test(part)
-          ? React.createElement(
-              HighlightTag,
-              {
-                key: index,
-                className: highlightClassName,
-                style: highlightStyle,
-                onClick: () => onHighlightClick?.(part),
-              },
-              part
-            )
-          : React.createElement(WrapperTag, { key: index }, part)
-      );
-    };
-
-    return React.createElement(
-      WrapperTag,
-      { ref: mergeRefs(internalRef, ref) },
-      getHighlightedText()
-    );
-  }
-);
+export const TextHighlight = InternalTextHighlight;

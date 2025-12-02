@@ -1,12 +1,30 @@
-export interface TextHighlightProps {
+import { ReactNode } from "react";
+
+export type DynamicWrapperTag = (
+  word: string,
+  index: number,
+  props: {
+    className: string;
+    style: React.CSSProperties;
+    onClick?: () => void;
+  }
+) => ReactNode;
+
+export interface HighlightElement {
   text: string;
-  highlightWords: string[];
-  caseSensitive?: boolean;
-  highlightClassName?: string;
-  highlightStyle?: React.CSSProperties;
-  onHighlightClick?: (word: string) => void;
-  wrapperTag?: keyof JSX.IntrinsicElements;
-  autoEscape?: boolean;
-  sanitize?: boolean;
-  ignoreWords?: string[];
+  index: number;
+}
+
+export interface TextHighlightRef extends HTMLDivElement {
+  scrollToHighlight: (index?: number) => void;
+  currentHighlightIndex: number;
+  highlightedElements: HighlightElement[] | [];
+  highlightedElementsCount: number;
+  chunks: { text: string; highlight: boolean }[];
+  chunksCount: number;
+}
+
+export interface IChunk {
+  text: string;
+  highlight: boolean;
 }
