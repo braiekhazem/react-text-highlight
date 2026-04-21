@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Active highlight for Find & Navigate and Accessible demos */
+.active-highlight {
+  background-color: #f97316 !important;
+  color: #fff !important;
+  border-bottom-color: #ea580c !important;
+  border-radius: 3px;
+  transition: background-color 0.2s ease;
+}
+
+/* Smooth scroll for section navigation */
+html {
+  scroll-behavior: smooth;
+}

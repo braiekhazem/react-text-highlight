@@ -24,7 +24,7 @@ export const useTextHighlightRef = (
   };
 
   const scrollToHighlight = (index: number = 0) => {
-    if (!internalRef.current || !index || index === -1) return;
+    if (!internalRef.current || index < 0) return;
 
     clearHighlights();
 
@@ -46,9 +46,29 @@ export const useTextHighlightRef = (
     }
   };
 
+  const next = () => {
+    if (highlightedElements.length === 0) return;
+    const nextIndex =
+      currentHighlightIndex + 1 >= highlightedElements.length
+        ? 0
+        : currentHighlightIndex + 1;
+    scrollToHighlight(highlightedElements[nextIndex]!.index);
+  };
+
+  const previous = () => {
+    if (highlightedElements.length === 0) return;
+    const prevIndex =
+      currentHighlightIndex - 1 < 0
+        ? highlightedElements.length - 1
+        : currentHighlightIndex - 1;
+    scrollToHighlight(highlightedElements[prevIndex]!.index);
+  };
+
   useImperativeHandle(ref, () => ({
     ...((ref as MutableRefObject<HTMLDivElement>)?.current ?? {}),
     scrollToHighlight,
+    next,
+    previous,
     currentHighlightIndex,
     highlightedElements,
     highlightedElementsCount: highlightedElements.length,

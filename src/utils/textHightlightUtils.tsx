@@ -9,7 +9,7 @@ import { REACT_TEXT_HIGHLIGHT_PREFIX } from "@src/components/TextHighlight/TextH
 export const renderWrapperTag = (
   tag: string | DynamicWrapperTag,
   props: any,
-  content: string
+  content: string,
 ) => {
   if (typeof tag === "string") return React.createElement(tag, props, content);
   return tag(content, props.index, props);
@@ -18,7 +18,7 @@ export const renderWrapperTag = (
 const renderTooltip = (
   tooltip: TextHighlightProps["tooltip"],
   text: string,
-  children: ReactNode
+  children: ReactNode,
 ) => {
   // check if the tooltip is disabled
   const isDisabled = tooltip?.enabled === false;
@@ -28,7 +28,7 @@ const renderTooltip = (
   if (tooltip?.classNames?.root)
     tooltip.classNames.root += ` ${concatPrefixCls(
       REACT_TEXT_HIGHLIGHT_PREFIX,
-      "tooltip"
+      "tooltip",
     )}`;
 
   return (
@@ -55,7 +55,7 @@ export const getHighlightedText = (
   onHighlightClick?: (e: React.MouseEvent, word: string, index: number) => void,
   unhighlightTag: keyof JSX.IntrinsicElements | DynamicWrapperTag = "span",
   unhighlightClassName: string = "",
-  unhighlightStyle: React.CSSProperties = {}
+  unhighlightStyle: React.CSSProperties = {},
 ): ReactNode[] => {
   return chunks.map((chunk, index) =>
     chunk?.highlight
@@ -65,14 +65,15 @@ export const getHighlightedText = (
           renderWrapperTag(
             HighlightTag,
             {
+              key: index,
               index,
               className: highlightClassName,
               style: highlightStyle,
               onClick: (e: React.MouseEvent) =>
                 onHighlightClick?.(e, chunk.text, index),
             },
-            chunk.text
-          )
+            chunk.text,
+          ),
         )
       : renderWrapperTag(
           unhighlightTag,
@@ -82,7 +83,7 @@ export const getHighlightedText = (
             className: unhighlightClassName,
             style: unhighlightStyle,
           },
-          chunk.text
-        )
+          chunk.text,
+        ),
   );
 };

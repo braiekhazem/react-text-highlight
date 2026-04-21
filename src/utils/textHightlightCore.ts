@@ -58,8 +58,11 @@ export const findAllChunks = ({
 
   const chunks = text.split(regex);
 
-  return chunks.map((chunk) => ({
-    text: chunk,
-    highlight: regex.test(chunk),
-  }));
+  return chunks.map((chunk) => {
+    regex.lastIndex = 0;
+    return {
+      text: chunk,
+      highlight: regex.test(chunk),
+    };
+  });
 };
