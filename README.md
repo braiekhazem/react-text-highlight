@@ -9,27 +9,9 @@ A powerful, flexible, and easy-to-use React component for highlighting text. Per
 [![npm downloads](https://img.shields.io/npm/dm/@hazembraiek/react-text-highlight.svg)](https://www.npmjs.com/package/@hazembraiek/react-text-highlight)
 [![license](https://img.shields.io/npm/l/@hazembraiek/react-text-highlight.svg)](https://github.com/braiekhazem/react-text-highlight/blob/main/LICENSE)
 
-[Demo](https://react-text-highlight-demo.netlify.app/) | [NPM](https://www.npmjs.com/package/@hazembraiek/react-text-highlight) | [GitHub](https://github.com/braiekhazem/react-text-highlight)
+[Demo](https://react-text-highlight-demo.netlify.app/) | [Storybook](https://rtt-storybook.netlify.app/) | [NPM](https://www.npmjs.com/package/@hazembraiek/react-text-highlight) | [GitHub](https://github.com/braiekhazem/react-text-highlight)
 
 </div>
-
----
-
-## Video Demo
-
-See React Text Highlight in action:
-
-<div align="center">
-  <video src="https://dl.dropboxusercontent.com/scl/fi/4j2926t5c6hvwey6zlxpn/1764693315297_Screen-Recording-2025-12-02-at-5.33.10-PM.mov?rlkey=qswnld2mbk1d018mtuof9glw3&dl=0" width="800" controls>
-    Your browser does not support the video tag.
-  </video>
-  
-  
-</div>
-
-**Can't see the video?** [Click here to watch the demo](https://dl.dropboxusercontent.com/scl/fi/4j2926t5c6hvwey6zlxpn/1764693315297_Screen-Recording-2025-12-02-at-5.33.10-PM.mov?rlkey=qswnld2mbk1d018mtuof9glw3&dl=0) or visit the [live demo site](https://react-text-highlight-demo.netlify.app/)
-
----
 
 ## Table of Contents
 
@@ -48,24 +30,24 @@ See React Text Highlight in action:
 
 ## Features
 
-| Feature | Description |
-| --- | --- |
-| **Multi-term search** | Highlight multiple words or phrases at once |
-| **Case-sensitive** | Optional case-sensitive matching |
-| **Exact word matching** | Match whole words only using word boundaries |
-| **Custom rendering** | Use any HTML tag or custom React component for highlights |
-| **Per-word styling** | Assign different colors/styles per search term via `highlightTag` |
-| **Click handlers** | Respond to clicks on highlighted text |
-| **Navigation** | Programmatically navigate between matches with `next()` / `previous()` |
-| **Auto-scroll** | Automatically scroll active highlight into view |
-| **Tooltips** | Built-in tooltip support via `rc-tooltip` |
-| **Match count** | Track total matches and current active index |
-| **Ignore list** | Exclude specific words from highlighting |
-| **Headless hook** | Use `useTextHighlight` directly for custom UIs or analytics |
-| **Ellipsis** | Truncate overflowing text with CSS ellipsis |
-| **TypeScript** | Full type definitions for props, ref, and hook |
-| **Lightweight** | Only `classnames` as runtime dependency |
-| **React 18 & 19** | Compatible with latest React versions |
+| Feature                 | Description                                                            |
+| ----------------------- | ---------------------------------------------------------------------- |
+| **Multi-term search**   | Highlight multiple words or phrases at once                            |
+| **Case-sensitive**      | Optional case-sensitive matching                                       |
+| **Exact word matching** | Match whole words only using word boundaries                           |
+| **Custom rendering**    | Use any HTML tag or custom React component for highlights              |
+| **Per-word styling**    | Assign different colors/styles per search term via `highlightTag`      |
+| **Click handlers**      | Respond to clicks on highlighted text                                  |
+| **Navigation**          | Programmatically navigate between matches with `next()` / `previous()` |
+| **Auto-scroll**         | Automatically scroll active highlight into view                        |
+| **Tooltips**            | Built-in tooltip support via `rc-tooltip`                              |
+| **Match count**         | Track total matches and current active index                           |
+| **Ignore list**         | Exclude specific words from highlighting                               |
+| **Headless hook**       | Use `useTextHighlight` directly for custom UIs or analytics            |
+| **Ellipsis**            | Truncate overflowing text with CSS ellipsis                            |
+| **TypeScript**          | Full type definitions for props, ref, and hook                         |
+| **Lightweight**         | Only `classnames` as runtime dependency                                |
+| **React 18 & 19**       | Compatible with latest React versions                                  |
 
 ## Installation
 
@@ -250,12 +232,8 @@ function MyComponent() {
 
   return (
     <div>
-      <button onClick={() => highlightRef.current?.previous()}>
-        Previous
-      </button>
-      <button onClick={() => highlightRef.current?.next()}>
-        Next
-      </button>
+      <button onClick={() => highlightRef.current?.previous()}>Previous</button>
+      <button onClick={() => highlightRef.current?.next()}>Next</button>
       <button onClick={() => highlightRef.current?.scrollToHighlight(0)}>
         Jump to first
       </button>
@@ -271,21 +249,21 @@ function MyComponent() {
 
 #### Available Ref Methods
 
-| Method | Type | Description |
-| --- | --- | --- |
-| `next()` | `() => void` | Navigate to next highlighted word |
-| `previous()` | `() => void` | Navigate to previous highlighted word |
+| Method                     | Type                      | Description                                    |
+| -------------------------- | ------------------------- | ---------------------------------------------- |
+| `next()`                   | `() => void`              | Navigate to next highlighted word              |
+| `previous()`               | `() => void`              | Navigate to previous highlighted word          |
 | `scrollToHighlight(index)` | `(index: number) => void` | Jump directly to a specific highlight by index |
 
 #### Available Ref Properties
 
-| Property | Type | Description |
-| --- | --- | --- |
-| `currentHighlightIndex` | `number` | Index of the currently active highlight (`-1` if none) |
-| `highlightedElements` | `Array<{ text: string; index: number }>` | All highlighted elements with their chunk indices |
-| `highlightedElementsCount` | `number` | Total number of highlighted matches |
-| `chunks` | `Array<{ text: string; highlight: boolean }>` | All text chunks (highlighted and non-highlighted) |
-| `chunksCount` | `number` | Total number of chunks |
+| Property                   | Type                                          | Description                                            |
+| -------------------------- | --------------------------------------------- | ------------------------------------------------------ |
+| `currentHighlightIndex`    | `number`                                      | Index of the currently active highlight (`-1` if none) |
+| `highlightedElements`      | `Array<{ text: string; index: number }>`      | All highlighted elements with their chunk indices      |
+| `highlightedElementsCount` | `number`                                      | Total number of highlighted matches                    |
+| `chunks`                   | `Array<{ text: string; highlight: boolean }>` | All text chunks (highlighted and non-highlighted)      |
+| `chunksCount`              | `number`                                      | Total number of chunks                                 |
 
 ## Advanced Usage
 
@@ -556,7 +534,7 @@ function LogViewer({ logs }: { logs: string }) {
 [WARN] Deprecated API called at /v1/users
 [ERROR] Connection to database failed
 [DEBUG] Request payload: { id: 42 }`}
-/>
+/>;
 ```
 
 ### Debounced Live Search
@@ -612,7 +590,13 @@ Use the `useTextHighlight` hook directly for analytics:
 ```tsx
 import { useTextHighlight } from "@hazembraiek/react-text-highlight";
 
-function KeywordDensity({ text, keywords }: { text: string; keywords: string[] }) {
+function KeywordDensity({
+  text,
+  keywords,
+}: {
+  text: string;
+  keywords: string[];
+}) {
   const { chunks, highlightedElementsCount } = useTextHighlight(text, {
     highlightWords: keywords,
   });
@@ -630,8 +614,7 @@ function KeywordDensity({ text, keywords }: { text: string; keywords: string[] }
         text={text}
         highlightWords={keywords}
         highlightStyle={{
-          backgroundColor:
-            parseFloat(density) > 5 ? "#ffcdd2" : "#c8e6c9",
+          backgroundColor: parseFloat(density) > 5 ? "#ffcdd2" : "#c8e6c9",
           padding: "1px 3px",
           borderRadius: "2px",
         }}
@@ -660,16 +643,11 @@ function AccessibleHighlight() {
         >
           Previous
         </button>
-        <button
-          onClick={() => ref.current?.next()}
-          aria-label="Next match"
-        >
+        <button onClick={() => ref.current?.next()} aria-label="Next match">
           Next
         </button>
         <span aria-live="polite">
-          {total > 0
-            ? `Match ${current + 1} of ${total}`
-            : "No matches found"}
+          {total > 0 ? `Match ${current + 1} of ${total}` : "No matches found"}
         </span>
       </div>
       <TextHighlight
@@ -743,6 +721,7 @@ MIT © [Hazem Braiek](https://github.com/braiekhazem)
 ## Links
 
 - [Live Demo](https://react-text-highlight-demo.netlify.app/)
+- [Storybook](https://rtt-storybook.netlify.app/)
 - [NPM Package](https://www.npmjs.com/package/@hazembraiek/react-text-highlight)
 - [GitHub Repository](https://github.com/braiekhazem/react-text-highlight)
 - [Issue Tracker](https://github.com/braiekhazem/react-text-highlight/issues)
@@ -754,7 +733,3 @@ If you find this package helpful, please consider:
 - Starring the [GitHub repository](https://github.com/braiekhazem/react-text-highlight)
 - Reporting issues on [GitHub](https://github.com/braiekhazem/react-text-highlight/issues)
 - Contributing to the project
-
----
-
-Made with ❤️ by [Hazem Braiek](https://github.com/braiekhazem)

@@ -1,5 +1,5 @@
 import React from "react";
-import { Sparkles, Github, Code2 } from "lucide-react";
+import { Sparkles, Github, Code2, BookOpen } from "lucide-react";
 import Logo from "../assets/logo.svg";
 import { SideNav } from "./components/SideNav";
 import { PlaygroundDemo } from "./components/PlaygroundDemo";
@@ -48,6 +48,17 @@ function App() {
               </div>
             </div>
             <div className="flex items-center gap-3">
+              <a
+                href="https://rtt-storybook.netlify.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-4 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-all duration-200"
+              >
+                <BookOpen className="h-5 w-5" />
+                <span className="text-sm font-medium hidden sm:inline">
+                  Storybook
+                </span>
+              </a>
               <a
                 href="https://github.com/braiekhazem/react-text-highlight"
                 target="_blank"
