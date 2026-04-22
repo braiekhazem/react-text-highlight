@@ -22,11 +22,16 @@ export default defineConfig({
       fileName: (format) => `index.${format}.js`,
     },
     rollupOptions: {
-      external: ["react", "react-dom"],
+      external: [/^react($|\/)/, /^react-dom($|\/)/, "rc-tooltip", "react-tooltip", "classnames", "classes"],
       output: {
         globals: {
           react: "React",
+          "react/jsx-runtime": "ReactJSXRuntime",
           "react-dom": "ReactDOM",
+          "rc-tooltip": "RcTooltip",
+          "react-tooltip": "ReactTooltip",
+          classnames: "classnames",
+          classes: "classes",
         },
       },
     },
@@ -36,12 +41,5 @@ export default defineConfig({
 
   server: {
     port: 3000,
-
-    // to get images from the server
-    // proxy: {
-    //   '^/users': {
-    //     target: 'http://localhost:8000/',
-    //   },
-    // },
   },
 });

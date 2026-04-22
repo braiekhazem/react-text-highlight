@@ -20,16 +20,15 @@ const renderTooltip = (
   text: string,
   children: ReactNode,
 ) => {
-  // check if the tooltip is disabled
-  const isDisabled = tooltip?.enabled === false;
+  if (!tooltip || tooltip.enabled === false) return children;
 
-  if (isDisabled) return children;
-
-  if (tooltip?.classNames?.root)
-    tooltip.classNames.root += ` ${concatPrefixCls(
+  const classNamesObj = { ...tooltip.classNames };
+  if (classNamesObj.root) {
+    classNamesObj.root += ` ${concatPrefixCls(
       REACT_TEXT_HIGHLIGHT_PREFIX,
       "tooltip",
     )}`;
+  }
 
   return (
     <Tooltip
@@ -37,6 +36,7 @@ const renderTooltip = (
       trigger={["hover"]}
       classNames={{
         root: concatPrefixCls(REACT_TEXT_HIGHLIGHT_PREFIX, "tooltip"),
+        ...classNamesObj,
       }}
       {...(typeof tooltip === "object" ? tooltip : {})}
       overlay={() => tooltip?.content?.(text) || text}
