@@ -17,6 +17,8 @@ export interface HighlightElement {
 
 export interface TextHighlightRef extends HTMLDivElement {
   scrollToHighlight: (index?: number) => void;
+  next: () => void;
+  previous: () => void;
   currentHighlightIndex: number;
   highlightedElements: HighlightElement[] | [];
   highlightedElementsCount: number;

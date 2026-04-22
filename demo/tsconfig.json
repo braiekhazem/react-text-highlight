@@ -44,7 +44,8 @@
 
     "baseUrl": ".",
     "paths": {
-      "@src/*": ["./src/*"]
+      "@hazembraiek/react-text-highlight": ["../src/index.ts"],
+      "@src/*": ["../src/*"]
     }
   },
   "ts-node": {

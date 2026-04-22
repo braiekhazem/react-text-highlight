@@ -3,7 +3,7 @@
   "name": "@hazembraiek/react-text-highlight",
   "author": "hazem braiek",
   "private": false,
-  "version": "0.0.2-beta",
+  "version": "0.0.5-beta.4",
   "type": "module",
   "main": "dist/index.umd.js",
   "module": "dist/index.es.js",
@@ -50,34 +50,54 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "demo": "cd demo && npm run dev",
-    "build-demo": "cd demo && npm run build"
+    "build-demo": "cd demo && npm run build",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "classes": "^0.3.0",
     "classnames": "^2.5.1",
-    "husky": "^8.0.3",
-    "rc-tooltip": "^6.4.0",
-    "react-tooltip": "^5.26.3",
-    "vite-plugin-css-injected-by-js": "^3.4.0",
-    "vite-plugin-dts": "^3.7.3"
+    "rc-tooltip": "^6.2.0"
   },
   "peerDependencies": {
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0"
   },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": false
+    },
+    "react-dom": {
+      "optional": false
+    }
+  },
   "devDependencies": {
+    "@storybook/addon-a11y": "^8.6.18",
+    "@storybook/addon-essentials": "^8.6.14",
+    "@storybook/addon-interactions": "^8.6.14",
+    "@storybook/addon-links": "^8.6.18",
+    "@storybook/blocks": "^8.6.14",
+    "@storybook/react": "^8.6.18",
+    "@storybook/react-vite": "^8.6.18",
+    "@storybook/test": "^8.6.18",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "@vitejs/plugin-react": "^4.0.0",
     "eslint": "^8.38.0",
     "eslint-plugin-storybook": "^0.8.0",
     "gh-pages": "^6.1.1",
+    "husky": "^8.0.3",
     "prettier": "3.0.0",
+    "rc-tooltip": "^6.4.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
+    "react-tooltip": "^5.26.3",
     "sass": "^1.71.1",
+    "storybook": "^8.6.18",
     "typescript": "^5.4.2",
     "vite": "^4.3.9",
+    "vite-plugin-css-injected-by-js": "^3.4.0",
+    "vite-plugin-dts": "^3.7.3",
     "vite-plugin-svgr": "^3.2.0"
   }
 }
