@@ -22,16 +22,14 @@ export default defineConfig({
       fileName: (format) => `index.${format}.js`,
     },
     rollupOptions: {
-      external: [/^react($|\/)/, /^react-dom($|\/)/, "rc-tooltip", "react-tooltip", "classnames", "classes"],
+      external: [/^react($|\/)/, /^react-dom($|\/)/, "rc-tooltip", "classnames"],
       output: {
         globals: {
           react: "React",
           "react/jsx-runtime": "ReactJSXRuntime",
           "react-dom": "ReactDOM",
           "rc-tooltip": "RcTooltip",
-          "react-tooltip": "ReactTooltip",
           classnames: "classnames",
-          classes: "classes",
         },
       },
     },

@@ -3,7 +3,7 @@
   "name": "@hazembraiek/react-text-highlight",
   "author": "hazem braiek",
   "private": false,
-  "version": "0.0.5-beta.4",
+  "version": "0.0.5-beta.6",
   "type": "module",
   "main": "dist/index.umd.js",
   "module": "dist/index.es.js",
@@ -55,7 +55,6 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "classes": "^0.3.0",
     "classnames": "^2.5.1",
     "rc-tooltip": "^6.2.0"
   },
@@ -91,7 +90,6 @@
     "rc-tooltip": "^6.4.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "react-tooltip": "^5.26.3",
     "sass": "^1.71.1",
     "storybook": "^8.6.18",
     "typescript": "^5.4.2",
